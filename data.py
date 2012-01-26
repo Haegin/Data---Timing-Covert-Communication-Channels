@@ -3,13 +3,12 @@ import os, stat, sys
 def encrypt(msg, prefix):
     # the input should be a sequence of bits
     plaintext = ""
-    print msg
+    print(msg)
     for c in msg:
-        print c
         plaintext += charToBitword(c)
     numb = 0
-    print "Encrypting..."
-    print plaintext
+    print("Encrypting...")
+    print(plaintext)
     while (plaintext != ""):
         bits = plaintext[0:9]
         filename = "{1}_{0}".format(numb, prefix)
@@ -21,25 +20,25 @@ def encrypt(msg, prefix):
         os.chmod(filename, mode)
         numb += 1
         plaintext = plaintext[9:]
-    print "Done"
+    print("Done")
 
 def decrypt(prefix, numbFiles):
     numb = 0
     msg = ""
-    print numbFiles
-    print "Decrypting..."
+    print(numbFiles)
+    print("Decrypting...")
     while (numb < numbFiles):
         filename = "{0}_{1}".format(prefix, numb)
-        print filename
+        print(filename)
         mode = os.stat(filename).st_mode
         bits = modeToBits(mode)
         msg += bits
         numb += 1
-    print "Done"
+    print("Done")
     plaintext = ""
     for i in range(0, len(msg), 7):
         plaintext += bitwordToChar(msg[i:i+7])
-    print "\n{0}".format(plaintext)
+    print("\n{0}".format(plaintext))
 
 def bitsToMode(bits):
     assert len(bits) <= 9
@@ -114,9 +113,9 @@ def bitwordToChar(bs):
     return chr(int("0b{0}".format(bs), 2))
 
 if __name__ == "__main__":
-    print sys.argv
-    #print charToBitword('H')
-    #print bitwordToChar(charToBitword('H'))
+    print(sys.argv)
+    #print(charToBitword('H'))
+    #print(bitwordToChar(charToBitword('H')))
     if (len(sys.argv) >= 4):
         if (sys.argv[1] == "enc"):
             encrypt(sys.argv[2], sys.argv[3])
@@ -124,8 +123,8 @@ if __name__ == "__main__":
         elif (sys.argv[1] == "dec"):
             decrypt(sys.argv[2], int(sys.argv[3]))
             sys.exit(0)
-    print "Usage:"
-    print "\tdata.py enc $MESSAGE $PREFIX"
-    print "\tdata.py dec $PREFIX $NUMBER_OF_FILES\n"
-    print "When encrypting you need to pass the message to encrypt\nand the prefix for the storage files.\n"
-    print "When decrypting you need to pass the prefix for the storage\nfiles and the number of files the message is stored in.\n"
+    print("Usage:")
+    print("\tdata.py enc $MESSAGE $PREFIX")
+    print("\tdata.py dec $PREFIX $NUMBER_OF_FILES\n")
+    print("When encrypting you need to pass the message to encrypt\nand the prefix for the storage files.\n")
+    print("When decrypting you need to pass the prefix for the storage\nfiles and the number of files the message is stored in.\n")
